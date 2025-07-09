@@ -1,13 +1,17 @@
-import { createRouter, createWebHistory } from "vue-router";
-import type { RouteRecordRaw } from "vue-router";
-import HelloWorld from "../components/HelloWorld.vue";
+import {
+  createRouter,
+  createWebHistory,
+  type RouteRecordRaw,
+} from "vue-router";
 
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: "/",
-    name: "Home",
-    component: HelloWorld,
-  },
+import Checkout from "../components/CheckOut.vue";
+import Dashboard from "../components/Dashboard.vue";
+import Store from "../components/Store.vue";
+
+const routes: RouteRecordRaw[] = [
+  { path: "/", name: "Dashboard", component: Dashboard },
+  { path: "/checkout", name: "Checkout", component: Checkout },
+  { path: "/store", name: "Store", component: Store },
 ];
 
 const router = createRouter({
