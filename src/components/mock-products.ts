@@ -4,7 +4,7 @@ export const products: Product[] = [
   {
     name: "Wireless Headphones",
     img: "https://picsum.photos/id/180/400/400",
-    seller: "SoundMax",
+    seller: "marcorey",
     category: "Electronics",
     stocks: 120,
     description: "High quality wireless headphones with noise cancellation.",
@@ -14,7 +14,7 @@ export const products: Product[] = [
   {
     name: "Organic Almonds",
     img: "https://picsum.photos/id/1080/400/400",
-    seller: "Nature's Best",
+    seller: "jlee_shop",
     category: "Food",
     stocks: 300,
     description: "Raw and organic almonds sourced from local farms.",
@@ -24,7 +24,7 @@ export const products: Product[] = [
   {
     name: "Building Blocks Set",
     img: "https://picsum.photos/id/1076/400/400",
-    seller: "PlayTime Toys",
+    seller: "marcorey",
     category: "Toys",
     stocks: 50,
     description: "Colorful building blocks to stimulate creativity in kids.",
@@ -34,7 +34,7 @@ export const products: Product[] = [
   {
     name: "Men's Casual T‑Shirt",
     img: "https://picsum.photos/id/659/400/400",
-    seller: "UrbanWear",
+    seller: "jlee_shop",
     category: "Clothing",
     stocks: 200,
     description: "Comfortable cotton T‑shirt available in multiple colors.",
@@ -44,7 +44,7 @@ export const products: Product[] = [
   {
     name: "Smartphone 5G",
     img: "https://picsum.photos/id/1/400/400",
-    seller: "TechWorld",
+    seller: "marcorey",
     category: "Electronics",
     stocks: 75,
     description: "Latest generation 5G smartphone with high‑res camera.",
@@ -54,7 +54,7 @@ export const products: Product[] = [
   {
     name: "Granola Mix",
     img: "https://picsum.photos/id/292/400/400",
-    seller: "Healthy Eats",
+    seller: "jlee_shop",
     category: "Food",
     stocks: 180,
     description: "Crunchy and tasty granola made with natural ingredients.",
@@ -64,7 +64,7 @@ export const products: Product[] = [
   {
     name: "Remote Control Car",
     img: "https://picsum.photos/id/1084/400/400",
-    seller: "FastTrack",
+    seller: "marcorey",
     category: "Toys",
     stocks: 90,
     description: "Fast and durable RC car for kids aged 6 and up.",
@@ -74,7 +74,7 @@ export const products: Product[] = [
   {
     name: "Women's Jeans",
     img: "https://picsum.photos/id/1011/400/400",
-    seller: "DenimCo",
+    seller: "jlee_shop",
     category: "Clothing",
     stocks: 150,
     description: "Slim‑fit jeans with comfortable stretch fabric.",
@@ -84,7 +84,7 @@ export const products: Product[] = [
   {
     name: "Bluetooth Speaker",
     img: "https://picsum.photos/id/1081/400/400",
-    seller: "SoundMax",
+    seller: "marcorey",
     category: "Electronics",
     stocks: 110,
     description:
@@ -95,7 +95,7 @@ export const products: Product[] = [
   {
     name: "Organic Honey",
     img: "https://picsum.photos/id/1040/400/400",
-    seller: "Nature's Best",
+    seller: "jlee_shop",
     category: "Food",
     stocks: 220,
     description: "Pure organic honey harvested from wildflowers.",

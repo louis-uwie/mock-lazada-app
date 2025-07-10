@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { products } from "../stores/mock-products"; // adjust path as needed
+import { products } from "../../components/mock-products"; // adjust path as needed
 </script>
 
 <style scoped>

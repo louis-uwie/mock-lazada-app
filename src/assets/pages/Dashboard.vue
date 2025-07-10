@@ -30,10 +30,10 @@
 
 <style scoped>
 .container {
-  margin-top: 20px;
+  margin: 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 20px;
 }
 
 .top-banner {
@@ -83,5 +83,5 @@
 </style>
 
 <script setup lang="ts">
-import Store from "../components/Store.vue"; // adjust path as needed
+import Store from "./Store.vue";
 </script>
