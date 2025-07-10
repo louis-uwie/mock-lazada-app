@@ -8,10 +8,13 @@ import Login from "./assets/pages/Login.vue";
 import { useUserStore } from "./stores/user";
 import type { User } from "./types/user";
 
+import { ElMessageBox } from "element-plus";
+
 const router = useRouter();
 const activeIndex = ref("1");
 const input = ref("");
 const userStore = useUserStore();
+const showLoginOverlay = ref(false);
 
 const indexToRoute = {
   "1": "/",
@@ -25,19 +28,37 @@ const handleSelect = (key: string) => {
   if (path) router.push(path);
 };
 
-// When login succeeds:
-// Assuming your Login component emits the logged-in user object
 const handleLoginSuccess = (user: User) => {
   userStore.login(user);
+  showLoginOverlay.value = false;
 };
 
 const handleLogout = () => {
   userStore.logout();
 };
+
+const handleOverlayClick = async () => {
+  try {
+    await ElMessageBox.confirm(
+      "Are you sure you want to cancel login?",
+      "Cancel Log In?",
+      {
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+        type: "warning",
+      }
+    );
+    showLoginOverlay.value = false;
+  } catch {}
+};
 </script>
 
 <template>
-  <div v-if="!userStore.currentUser" class="login-overlay">
+  <div
+    v-if="showLoginOverlay && !userStore.currentUser"
+    class="login-overlay"
+    @click.self="handleOverlayClick"
+  >
     <Login @login-success="handleLoginSuccess" />
   </div>
 
@@ -64,29 +85,32 @@ const handleLogout = () => {
         </el-menu>
 
         <div class="nav-right">
-          <el-button @click="handleLogout" type="text" class="logout-button">
-            <svg
-              fill="none"
-              height="24"
-              viewBox="0 0 24 24"
-              width="16"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M17 16L21 12M21 12L17 8M21 12L7 12M13 16V17C13 18.6569 11.6569 20 10 20H6C4.34315 20 3 18.6569 3 17V7C3 5.34315 4.34315 4 6 4H10C11.6569 4 13 5.34315 13 7V8"
-                stroke="#374151"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1"
-              />
-            </svg>
+          <!-- 🔹 Log out button -->
+          <el-button
+            v-if="userStore.currentUser"
+            @click="handleLogout"
+            type="text"
+            class="logout-button"
+          >
+            Log Out
+          </el-button>
+
+          <!-- 🔹 Show login button -->
+          <el-button
+            v-else
+            type="primary"
+            class="login-button"
+            @click="showLoginOverlay = true"
+          >
+            Log In
           </el-button>
         </div>
       </div>
 
+      <!-- Welcome message -->
       <div v-if="userStore.currentUser" class="user-info">
         Hello, {{ userStore.currentUser.fname }}! <br />
-        Welcome to Lazada !
+        Welcome to Lazada!
       </div>
     </header>
 
@@ -125,18 +149,16 @@ const handleLogout = () => {
   display: flex;
   flex-direction: row;
   width: 100%;
+  background-color: white;
 }
 
 .user-info {
-  background-color: aliceblue;
   color: black;
   font-weight: 600;
   font-size: large;
-
   width: 20%;
   height: 100%;
-
-  text-overflow: ellipsis; /* show "..." if text too long */
+  text-overflow: ellipsis;
 }
 
 .login-overlay {
@@ -152,21 +174,22 @@ const handleLogout = () => {
   align-items: center;
 }
 
+/* Mobile styles */
 @media screen and (max-width: 768px) {
   .header {
-    max-width: 100%; /* allow full width */
+    max-width: 100%;
     flex-direction: column;
   }
 
   .user-info {
-    width: 100%; /* make user-info take full width */
+    width: 100%;
     max-width: 100%;
-    margin-top: 8px; /* add some spacing below header items */
-    justify-content: center; /* center contents on small screens */
+    margin-top: 8px;
+    justify-content: center;
   }
 
   .nav-bar {
-    width: 100%; /* nav bar takes full width */
+    width: 100%;
   }
 }
 </style>
