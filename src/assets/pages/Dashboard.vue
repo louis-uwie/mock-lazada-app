@@ -110,7 +110,6 @@
 <script setup lang="ts">
 import Store from "./Store.vue";
 import { useUserStore } from "../../stores/user";
-import QuickTabs from "../../components/QuickTabs.vue";
 
 const userStore = useUserStore();
 

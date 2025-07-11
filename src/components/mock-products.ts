@@ -1,7 +1,10 @@
-import type { Product } from "./product";
+import type { Product } from "../types/product";
+
+const generateId = (): string => Math.random().toString(36).substring(2, 12);
 
 export const products: Product[] = [
   {
+    id: generateId(),
     name: "Wireless Headphones",
     img: "https://picsum.photos/id/180/400/400",
     seller: "marcorey",
@@ -12,6 +15,7 @@ export const products: Product[] = [
     price: 99.99,
   },
   {
+    id: generateId(),
     name: "Organic Almonds",
     img: "https://picsum.photos/id/1080/400/400",
     seller: "jlee_shop",
@@ -22,6 +26,7 @@ export const products: Product[] = [
     price: 15.5,
   },
   {
+    id: generateId(),
     name: "Building Blocks Set",
     img: "https://picsum.photos/id/1076/400/400",
     seller: "marcorey",
@@ -32,6 +37,7 @@ export const products: Product[] = [
     price: 25.0,
   },
   {
+    id: generateId(),
     name: "Men's Casual T‑Shirt",
     img: "https://picsum.photos/id/659/400/400",
     seller: "jlee_shop",
@@ -42,6 +48,7 @@ export const products: Product[] = [
     price: 19.99,
   },
   {
+    id: generateId(),
     name: "Smartphone 5G",
     img: "https://picsum.photos/id/1/400/400",
     seller: "marcorey",
@@ -52,6 +59,7 @@ export const products: Product[] = [
     price: 699.0,
   },
   {
+    id: generateId(),
     name: "Granola Mix",
     img: "https://picsum.photos/id/292/400/400",
     seller: "jlee_shop",
@@ -62,6 +70,7 @@ export const products: Product[] = [
     price: 7.99,
   },
   {
+    id: generateId(),
     name: "Remote Control Car",
     img: "https://picsum.photos/id/1084/400/400",
     seller: "marcorey",
@@ -72,6 +81,7 @@ export const products: Product[] = [
     price: 39.99,
   },
   {
+    id: generateId(),
     name: "Women's Jeans",
     img: "https://picsum.photos/id/1011/400/400",
     seller: "jlee_shop",
@@ -82,6 +92,7 @@ export const products: Product[] = [
     price: 49.99,
   },
   {
+    id: generateId(),
     name: "Bluetooth Speaker",
     img: "https://picsum.photos/id/1081/400/400",
     seller: "marcorey",
@@ -93,6 +104,7 @@ export const products: Product[] = [
     price: 59.99,
   },
   {
+    id: generateId(),
     name: "Organic Honey",
     img: "https://picsum.photos/id/1040/400/400",
     seller: "jlee_shop",
