@@ -3,7 +3,7 @@
     <div class="top-banner">
       <div class="carousel-block">
         <el-carousel
-          height="420px"
+          height="440px"
           arrow="hover"
           indicator-position="inside"
           autoplay
@@ -16,55 +16,7 @@
       </div>
     </div>
 
-    <div v-if="userStore.currentUser" class="inbetween">
-      <a
-        href="https://example.com/link1"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="card-link"
-      >
-        <el-card shadow="hover" class="clickable-card">
-          <img
-            src="https://via.placeholder.com/300x150?text=Card+1"
-            alt="Card 1 Image"
-          />
-          <h3>My Account</h3>
-          <p>Top Up, Pay Bills, Personal Settings, and more!</p>
-        </el-card>
-      </a>
-
-      <a
-        href="https://example.com/link2"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="card-link"
-      >
-        <el-card shadow="hover" class="clickable-card">
-          <img
-            src="https://via.placeholder.com/300x150?text=Card+2"
-            alt="Card 2 Image"
-          />
-          <h3>My Vouchers</h3>
-          <p>Collect & Redeem!</p>
-        </el-card>
-      </a>
-
-      <a
-        href="https://example.com/link3"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="card-link"
-      >
-        <el-card shadow="hover" class="clickable-card">
-          <img
-            src="https://via.placeholder.com/300x150?text=Card+3"
-            alt="Card 3 Image"
-          />
-          <h3>Download Now!</h3>
-          <p>Try our Mobile App!</p>
-        </el-card>
-      </a>
-    </div>
+    <div v-if="userStore.currentUser" class="inbetween"><QuickTabs /></div>
 
     <div class="middle-banner"><Store /></div>
     <div class="bottom-banner"></div>
@@ -83,7 +35,8 @@
 
 .carousel-block {
   flex: 1 1 80%;
-  height: 100%;
+  /* height: 100%; */
+  height: 40vh;
   position: relative;
 }
 
@@ -97,39 +50,15 @@
 .top-banner {
   display: flex;
   width: 100%;
-  height: 420px;
+  height: 440px;
   background-color: white;
+  border-radius: 20px;
 }
 
 .inbetween {
   display: flex;
   gap: 20px;
   justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.card-link {
-  text-decoration: none;
-  color: inherit;
-  flex: 1 1 300px;
-  max-width: 33%;
-  box-sizing: border-box;
-}
-
-.clickable-card {
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  height: 100%;
-}
-
-.clickable-card img {
-  width: 100%;
-  height: auto;
-  margin-bottom: 12px;
-  border-radius: 8px;
 }
 
 .middle-banner {
@@ -153,11 +82,24 @@
 
 @media screen and (max-width: 768px) {
   .carousel-image {
-    object-fit: contain;
+    object-fit: cover;
   }
 
   .carousel-block {
     background-color: rgb(240, 240, 240);
+  }
+
+  .inbetween {
+    flex-direction: column;
+  }
+
+  .card-link {
+    max-width: 100%;
+    flex: 1 1 100%;
+  }
+
+  .clickable-card {
+    width: 100%;
   }
 }
 
@@ -168,6 +110,7 @@
 <script setup lang="ts">
 import Store from "./Store.vue";
 import { useUserStore } from "../../stores/user";
+import QuickTabs from "../../components/QuickTabs.vue";
 
 const userStore = useUserStore();
 
