@@ -42,6 +42,7 @@ const handleSelect = (key: string) => {
   justify-content: row;
   align-items: center;
   padding: 0 16px;
+  background-color: transparent;
 }
 .logout-button,
 .login-button {

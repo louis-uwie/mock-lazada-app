@@ -21,14 +21,14 @@ import Header from "./components/Header.vue";
   top: 0;
   left: 0;
   width: 100%;
-  background-color: white;
   z-index: 1000;
 }
 
 .main-content {
-  margin-top: 200px; /* Adjust based on Header + QuickCheckOut height */
+  margin-top: 200px;
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 </style>

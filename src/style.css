@@ -2,10 +2,28 @@
   font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
   line-height: 2;
   font-weight: 400;
-
-  background-color: rgb(240, 240, 240);
 }
 
-#app {
-  text-align: center;
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes randomGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

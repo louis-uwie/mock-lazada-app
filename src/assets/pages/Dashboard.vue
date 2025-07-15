@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="top-banner"><ShopCarousel /></div>
+    <div class="top-banner"><UserInformation /></div>
 
     <div v-if="userStore.currentUser" class="inbetween"><QuickTabs /></div>
 
@@ -21,24 +21,22 @@
 }
 
 .top-banner {
-  /* TEMPORARILY SUSPENDED BECAUSE I DONT LIKE HOW IT LOOKS. */
-  display: none;
+  /* display: none; */
   width: 100%;
-  height: 440px;
   background-color: white;
   border-radius: 20px;
+}
+
+.banner {
+  /* background-color: rgb(229, 229, 229); */
+  color: black;
+  width: 100%;
 }
 
 .inbetween {
   display: flex;
   gap: 20px;
   justify-content: space-between;
-}
-
-.banner {
-  background-color: rgb(229, 229, 229);
-  color: black;
-  width: 100%;
 }
 
 @media screen and (max-width: 1280px) {
@@ -77,6 +75,7 @@
 <script setup lang="ts">
 import Store from "./Store.vue";
 import { useUserStore } from "../../stores/user";
+import UserInformation from "../../components/UserInformation.vue";
 import ShopCarousel from "../../components/ShopCarousel.vue";
 
 const userStore = useUserStore();

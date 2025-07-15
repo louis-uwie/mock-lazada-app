@@ -8,4 +8,5 @@ export interface User {
   password: string;
   accType: AccType;
   registerDate: Date;
+  wallet: number;
 }

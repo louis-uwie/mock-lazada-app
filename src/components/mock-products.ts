@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import type { Product } from "../types/product";
 import type { User } from "../types/user";
 import { users } from "./mock-users";
@@ -9,7 +8,7 @@ const getMerchant = (index: number): User =>
 
 export const products: Product[] = [
   {
-    productId: uuidv4(),
+    productId: "32de2335-dc86-4ae7-9d30-6733fd1df4b6",
     name: "Wireless Headphones",
     img: "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=400&q=80",
     seller: getMerchant(0),
@@ -20,7 +19,7 @@ export const products: Product[] = [
     sale: 0,
   },
   {
-    productId: uuidv4(),
+    productId: "ebbd2181-99e9-494d-a7a3-e5342c1dc726",
     name: "Organic Almonds",
     img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
     seller: getMerchant(1),
@@ -31,7 +30,7 @@ export const products: Product[] = [
     sale: 0,
   },
   {
-    productId: uuidv4(),
+    productId: "f1a3d1f7-68a6-40d7-b24a-9a9e4260e8bb",
     name: "Toy Building Blocks",
     img: "https://images.unsplash.com/photo-1526406915899-1b1f5f9eab0f?auto=format&fit=crop&w=400&q=80",
     seller: getMerchant(0),
@@ -42,7 +41,7 @@ export const products: Product[] = [
     sale: 10,
   },
   {
-    productId: uuidv4(),
+    productId: "1e4f5b6d-0a57-4b9a-940d-2a64d3cc2520",
     name: "Men's Casual Shirt",
     img: "https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=400&q=80",
     seller: getMerchant(1),
@@ -53,7 +52,7 @@ export const products: Product[] = [
     sale: 5,
   },
   {
-    productId: uuidv4(),
+    productId: "7b8e07b1-6823-4b67-8239-d7022cb1b6cc",
     name: "Smartphone 128GB",
     img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80",
     seller: getMerchant(0),
@@ -64,7 +63,7 @@ export const products: Product[] = [
     sale: 0,
   },
   {
-    productId: uuidv4(),
+    productId: "3ea35c4a-8a69-456a-bd0f-3e14fbd17a4e",
     name: "Organic Honey",
     img: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=400&q=80",
     seller: getMerchant(1),
@@ -75,7 +74,7 @@ export const products: Product[] = [
     sale: 15,
   },
   {
-    productId: uuidv4(),
+    productId: "17d9d29e-334d-4c2d-b121-9e8b65a9ac4c",
     name: "Remote Control Car",
     img: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=400&q=80",
     seller: getMerchant(0),
@@ -86,7 +85,7 @@ export const products: Product[] = [
     sale: 0,
   },
   {
-    productId: uuidv4(),
+    productId: "f79f91d2-6f43-4e65-94e0-8d78d1e5a1b3",
     name: "Women's Denim Jacket",
     img: "https://images.unsplash.com/photo-1530845645419-ccf1fdd4d2d0?auto=format&fit=crop&w=400&q=80",
     seller: getMerchant(1),
@@ -97,7 +96,7 @@ export const products: Product[] = [
     sale: 10,
   },
   {
-    productId: uuidv4(),
+    productId: "9cb4a7d9-e9f2-4e5a-8401-6bdbd72cdad7",
     name: "Bluetooth Speaker",
     img: "https://images.unsplash.com/photo-1512446733611-9099a758e3a6?auto=format&fit=crop&w=400&q=80",
     seller: getMerchant(0),
@@ -108,7 +107,7 @@ export const products: Product[] = [
     sale: 5,
   },
   {
-    productId: uuidv4(),
+    productId: "66c5d4bc-5c6e-4fdb-96dd-1a4f72a3f842",
     name: "Gluten-Free Granola",
     img: "https://images.unsplash.com/photo-1505253210343-64ef14d76f3f?auto=format&fit=crop&w=400&q=80",
     seller: getMerchant(1),
@@ -119,7 +118,7 @@ export const products: Product[] = [
     sale: 0,
   },
   {
-    productId: uuidv4(),
+    productId: "a2f3e9d0-f3a5-4b42-b17a-9b3b9536b99b",
     name: "Puzzle Game Set",
     img: "https://images.unsplash.com/photo-1563201517-2e5b02f36a43?auto=format&fit=crop&w=400&q=80",
     seller: getMerchant(0),
@@ -130,7 +129,7 @@ export const products: Product[] = [
     sale: 0,
   },
   {
-    productId: uuidv4(),
+    productId: "b3f6a1d2-7314-4dbd-88f3-3d7e2f8a9f3f",
     name: "Kids' Hoodie",
     img: "https://images.unsplash.com/photo-1520975691079-c66a6e8d58af?auto=format&fit=crop&w=400&q=80",
     seller: getMerchant(1),

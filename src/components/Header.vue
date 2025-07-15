@@ -140,4 +140,29 @@ const handleLogout = () => {
   justify-content: center;
   align-items: center;
 }
+
+.header-container,
+.tagline {
+  background: linear-gradient(
+    -45deg,
+    #ff9a9e,
+    #fad0c4,
+    #fbc2eb,
+    #a6c1ee,
+    #84fab0,
+    #8fd3f4,
+    #cfd9df
+  );
+  background-size: 400% 400%;
+  animation: randomGradient 90s ease infinite;
+}
+
+::v-deep(.el-divider) {
+  border-top: 1px solid rgb(255, 255, 255);
+}
+
+::v-deep(.el-divider__text) {
+  color: black;
+  border-radius: 12px;
+}
 </style>

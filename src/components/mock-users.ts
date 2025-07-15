@@ -10,6 +10,7 @@ export const users: User[] = [
     password: "password123",
     accType: "Merchant",
     registerDate: new Date("2022-03-21"),
+    wallet: 3500.75,
   },
   {
     userId: uuidv4(),
@@ -19,6 +20,7 @@ export const users: User[] = [
     password: "securepass",
     accType: "Merchant",
     registerDate: new Date("2021-07-19"),
+    wallet: 12000.0,
   },
   {
     userId: uuidv4(),
@@ -28,6 +30,7 @@ export const users: User[] = [
     password: "welcome123",
     accType: "Customer",
     registerDate: new Date("2023-01-11"),
+    wallet: 250.0,
   },
   {
     userId: uuidv4(),
@@ -37,6 +40,7 @@ export const users: User[] = [
     password: "mysecret",
     accType: "Customer",
     registerDate: new Date("2022-11-05"),
+    wallet: 875.3,
   },
   {
     userId: uuidv4(),
@@ -46,6 +50,7 @@ export const users: User[] = [
     password: "passw0rd",
     accType: "Customer",
     registerDate: new Date("2021-05-25"),
+    wallet: 4200.99,
   },
 ];
 
