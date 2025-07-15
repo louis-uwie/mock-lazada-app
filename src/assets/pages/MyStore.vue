@@ -15,7 +15,9 @@
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "../../stores/user";
 import { onMounted } from "vue";
+import { useProductStore } from "../../stores/product";
 
+const productStore = useProductStore();
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();

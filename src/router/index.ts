@@ -9,6 +9,7 @@ import Dashboard from "../assets/pages/Dashboard.vue";
 import Store from "../assets/pages/Store.vue";
 import Product from "../assets/pages/Product.vue";
 import MyStore from "../assets/pages/MyStore.vue";
+import MyCart from "../assets/pages/MyCart.vue";
 
 const routes: RouteRecordRaw[] = [
   { path: "/", name: "Dashboard", component: Dashboard },
@@ -16,6 +17,11 @@ const routes: RouteRecordRaw[] = [
   { path: "/store", name: "Store", component: Store },
   { path: "/product/:id", name: "Product", component: Product },
   { path: "/accountg/:username", name: "MyStore", component: MyStore },
+  {
+    path: "/accountg/:username/MyCart",
+    name: "MyCart",
+    component: MyCart,
+  },
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",

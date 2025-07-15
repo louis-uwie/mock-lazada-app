@@ -1,14 +1,16 @@
+import type { User } from "./user";
+
 export type Category = "Electronics" | "Food" | "Toys" | "Clothing";
 export type Rating = 1 | 2 | 3 | 4 | 5;
 
 export interface Product {
-  id?: string;
-  name: string;
+  productId: string;
   img: string;
-  seller: string;
+  name: string;
+  seller: User;
   category: Category;
   stocks: number;
   description: string;
-  rating: Rating;
   price: number;
+  sale: number;
 }

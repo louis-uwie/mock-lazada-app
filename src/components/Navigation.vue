@@ -5,7 +5,6 @@ import { useUserStore } from "../stores/user";
 
 const router = useRouter();
 const userStore = useUserStore();
-const input = ref("");
 const activeIndex = ref("1");
 
 const emit = defineEmits(["show-login"]);
@@ -21,10 +20,6 @@ const handleSelect = (key: string) => {
   const path = indexToRoute[key as keyof typeof indexToRoute];
   if (path) router.push(path);
 };
-
-const handleLogout = () => {
-  userStore.logout();
-};
 </script>
 
 <template>
@@ -37,51 +32,7 @@ const handleLogout = () => {
     <el-menu-item index="1">Dashboard</el-menu-item>
     <el-menu-item index="2">Store</el-menu-item>
     <el-menu-item index="3">Check Out</el-menu-item>
-    <el-menu-item index="4">
-      <el-input
-        v-model="input"
-        style="width: 240px"
-        placeholder="Search"
-        clearable
-      />
-    </el-menu-item>
-
-    <el-menu-item
-      index="5"
-      v-if="userStore.currentUser"
-      @click="handleLogout"
-      class="logout-button"
-    >
-      Log Out
-    </el-menu-item>
-
-    <el-menu-item
-      index="6"
-      v-else
-      @click="$emit('show-login')"
-      class="login-button"
-    >
-      Log In
-    </el-menu-item>
   </el-menu>
-
-  <!-- <el-button
-    v-if="userStore.currentUser"
-    @click="handleLogout"
-    type="text"
-    class="logout-button"
-  >
-    Log Out
-  </el-button>
-
-  <el-button
-    v-else
-    type="primary"
-    class="login-button"
-    @click="$emit('show-login')"
-  >
-    Log In
-  </el-button> -->
 </template>
 
 <style scoped>

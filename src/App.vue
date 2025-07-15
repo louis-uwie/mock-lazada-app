@@ -1,75 +1,34 @@
 <script setup lang="ts">
 import "./style.css";
-import { ref } from "vue";
-import { ElMessageBox } from "element-plus";
-
-import Navigation from "./components/Navigation.vue";
-import Login from "./assets/pages/Login.vue";
 import QuickCheckOut from "./components/QuickCheckOut.vue";
-
-import { useUserStore } from "./stores/user";
-import type { User } from "./types/user";
-
-const userStore = useUserStore();
-const showLoginOverlay = ref(false);
-
-const handleLoginSuccess = (user: User) => {
-  userStore.login(user);
-  showLoginOverlay.value = false;
-};
-
-const handleOverlayClick = async () => {
-  try {
-    await ElMessageBox.confirm(
-      "Are you sure you want to cancel login?",
-      "Cancel Log In?",
-      {
-        confirmButtonText: "Yes",
-        cancelButtonText: "No",
-        type: "warning",
-      }
-    );
-    showLoginOverlay.value = false;
-  } catch {
-    // user canceled
-  }
-};
+import Header from "./components/Header.vue";
 </script>
 
 <template>
-  <Navigation @show-login="showLoginOverlay = true" />
-  <QuickCheckOut />
-
-  <div class="main">
-    <router-view />
+  <div class="fixed-header">
+    <Header />
+    <QuickCheckOut />
   </div>
 
-  <div
-    v-if="showLoginOverlay && !userStore.currentUser"
-    class="login-overlay"
-    @click.self="handleOverlayClick"
-  >
-    <Login @login-success="handleLoginSuccess" />
+  <div class="main-content">
+    <router-view />
   </div>
 </template>
 
 <style scoped>
-.main {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
-
-.login-overlay {
+.fixed-header {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 999;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(92, 92, 92, 0.5);
+  width: 100%;
+  background-color: white;
+  z-index: 1000;
+}
+
+.main-content {
+  margin-top: 200px; /* Adjust based on Header + QuickCheckOut height */
+  padding: 1rem;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
-  <div class="page-container">This is Checkout</div>
+  <div class="page-container"><MyCart /></div>
 </template>
 
 <script setup lang="ts">
-// Add your component logic here
+import MyCart from "./MyCart.vue";
 </script>
 
 <style scoped>

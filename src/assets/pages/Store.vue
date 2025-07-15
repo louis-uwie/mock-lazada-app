@@ -3,20 +3,22 @@
     <router-link
       v-for="(product, index) in products"
       :key="index"
-      :to="`/product/${product.id}`"
+      :to="`/product/${product.productId}`"
       class="product-link"
     >
       <el-card class="product-card" shadow="hover">
-        <img :src="product.img" alt="Product Image" class="product-image" />
-
+        <!-- <img :src="product.img" alt="Product Image" class="product-image" /> -->
+        <img
+          src="../images/europeana-kWrE1KDiR48-unsplash.jpg"
+          class="product-image"
+        />
         <template #footer>
           <div class="product-info">
             <strong>{{ product.name }}</strong
             ><br />
             Price: <b>₱{{ product.price.toFixed(2) }}</b
             ><br />
-            Seller: {{ product.seller }}<br />
-            Rating: {{ product.rating }} / 5<br />
+            Seller: {{ product.seller.username }}<br />
             Category: {{ product.category }}
           </div>
         </template>
@@ -27,13 +29,14 @@
 
 <script setup lang="ts">
 import { products } from "../../components/mock-products";
+// import { useProductStore } from "../../stores/product";
 </script>
 
 <style scoped>
 .product-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 12px;
   padding: 16px;
   justify-content: center;
 }
@@ -41,7 +44,7 @@ import { products } from "../../components/mock-products";
 .product-link {
   text-decoration: none;
   color: inherit;
-  max-width: 240px;
+  max-width: 360px;
   width: 100%;
 }
 
@@ -59,7 +62,7 @@ import { products } from "../../components/mock-products";
 }
 
 .product-info {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.4;
 }
 </style>
