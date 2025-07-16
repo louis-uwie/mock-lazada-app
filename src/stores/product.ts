@@ -20,5 +20,12 @@ export const useProductStore = defineStore("product", {
         product.stocks -= quantity;
       }
     },
+
+    increaseStock(productId: string, quantity: number) {
+      const product = this.products.find((p) => p.productId === productId);
+      if (product) {
+        product.stocks += quantity;
+      }
+    },
   },
 });

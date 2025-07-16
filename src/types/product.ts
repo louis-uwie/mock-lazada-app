@@ -1,6 +1,18 @@
 import type { User } from "./user";
 
-export type Category = "Electronics" | "Food" | "Toys" | "Clothing";
+export type Category =
+  | "Electronics"
+  | "Food"
+  | "Toys"
+  | "Clothing"
+  | "Home"
+  | "Sports"
+  | "Kitchen"
+  | "Music"
+  | "Travel"
+  | "Office"
+  | "Outdoors";
+
 export type Rating = 1 | 2 | 3 | 4 | 5;
 
 export interface Product {

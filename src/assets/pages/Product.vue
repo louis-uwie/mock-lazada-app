@@ -16,6 +16,15 @@
         size="small"
         label="Quantity"
       />
+
+      <el-button
+        type="success"
+        @click="addToCart"
+        :disabled="quantity > product.stocks"
+      >
+        Add to Cart
+      </el-button>
+
       <el-button
         type="primary"
         @click="buyNow"
@@ -34,41 +43,67 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRoute } from "vue-router";
-import { products } from "../../components/mock-products";
+import { ElMessage } from "element-plus";
+
 import { useUserStore } from "../../stores/user";
 import { useProductStore } from "../../stores/product";
+import { useCartStore } from "../../stores/carts";
 import { useOrderStore } from "../../stores/orders";
+
 import type { Product } from "../../types/product";
-import type { OrderItem } from "../../types/order";
+import { products } from "../../components/mock-products";
 
 const route = useRoute();
+const userStore = useUserStore();
+const productStore = useProductStore();
+const cartStore = useCartStore();
+const orderStore = useOrderStore();
 
 const productId = route.params.id as string;
-const productStore = useProductStore();
-
 const product: Product | undefined = products.find(
   (p) => p.productId === productId
 );
 
 const quantity = ref(1);
 
-const buyNow = () => {
-  const userStore = useUserStore();
-  const orderStore = useOrderStore();
-
-  // const username = userStore.currentUser?.username;
+const addToCart = () => {
   const user = userStore.currentUser;
-
-  if (!product || product.stocks < quantity.value || !user) {
-    alert("Invalid purchase.");
+  if (!user || !product) {
+    ElMessage.error("Please log in to add to cart.");
     return;
   }
 
   try {
-    orderStore.purchaseItem(product.productId, quantity.value);
-    alert(`You bought ${quantity.value} item(s) of ${product.name}!`);
+    cartStore.addItemToCart(product.productId, quantity.value);
+    ElMessage.success(`${product.name} added to cart!`);
   } catch (err) {
-    alert((err as Error).message);
+    ElMessage.error((err as Error).message);
+  }
+};
+
+const buyNow = () => {
+  const user = userStore.currentUser;
+  if (!user || !product) {
+    ElMessage.error("Please log in to purchase.");
+    return;
+  }
+
+  try {
+    // 1. Add to cart
+    cartStore.addItemToCart(product.productId, quantity.value);
+
+    // 2. Checkout entire cart
+    const cartItems = cartStore.getItems(); // array of OrderItem
+    const total = cartStore.getTotalPrice();
+
+    orderStore.checkoutCart(cartItems, total);
+
+    // 3. Clear cart
+    cartStore.clearCart();
+
+    ElMessage.success(`Purchased ${quantity.value} of ${product.name}`);
+  } catch (err) {
+    ElMessage.error((err as Error).message);
   }
 };
 </script>
@@ -88,5 +123,11 @@ const buyNow = () => {
   height: auto;
   object-fit: cover;
   margin-bottom: 1rem;
+}
+
+.purchase-section {
+  display: flex;
+  gap: 12px;
+  margin-top: 1rem;
 }
 </style>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import Navigation from "./Navigation.vue";
 import { ref } from "vue";
 import { ElMessageBox } from "element-plus";
 
 import Login from "../assets/pages/Login.vue";
 import { useUserStore } from "../stores/user";
 import type { User } from "../types/user";
+import router from "../router";
 
 const userStore = useUserStore();
 
@@ -36,6 +36,14 @@ const handleOverlayClick = async () => {
 const handleLogout = () => {
   userStore.logout();
 };
+
+const goToDashboard = () => {
+  router.push("/");
+};
+
+const goToStore = () => {
+  router.push("/store");
+};
 </script>
 
 <template>
@@ -65,9 +73,6 @@ const handleLogout = () => {
       <em>Just because I like it</em>
     </el-divider>
 
-    <Navigation />
-
-    <!-- Login Modal Overlay -->
     <div
       v-if="showLoginOverlay && !userStore.currentUser"
       class="login-overlay"
@@ -75,10 +80,32 @@ const handleLogout = () => {
     >
       <Login @login-success="handleLoginSuccess" />
     </div>
+
+    <div class="menu">
+      <el-button class="button" round @click="goToDashboard"
+        >Dashboard</el-button
+      >
+      <el-button class="button" round @click="goToStore">Store</el-button>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.button {
+  background-color: #ffffff;
+  color: black;
+  border: none;
+  margin-left: 20px;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  border: none;
+}
+
 .header-container {
   margin-bottom: 0.25rem;
   background-color: white;

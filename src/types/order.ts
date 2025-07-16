@@ -1,4 +1,3 @@
-import type { Product } from "./product";
 import type { User } from "./user";
 
 // This is the ITEM

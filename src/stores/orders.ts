@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import { v4 as uuidv4 } from "uuid";
 
 import type { Order, OrderItem } from "../types/order";
-
 import { useUserStore } from "./user";
 import { useProductStore } from "./product";
 
@@ -17,7 +16,7 @@ function saveOrdersToLocalStorage(orders: Order[]) {
 
 export const useOrderStore = defineStore("order", {
   state: () => ({
-    orders: loadOrdersFromLocalStorage(),
+    orders: loadOrdersFromLocalStorage() as Order[],
   }),
 
   getters: {
@@ -27,33 +26,26 @@ export const useOrderStore = defineStore("order", {
   },
 
   actions: {
-    purchaseItem(productId: string, quantity = 1) {
+    /**
+     * Checkout method: Takes the current cart items and creates an order
+     */
+    checkoutCart(items: OrderItem[], totalPrice: number) {
       const userStore = useUserStore();
       const productStore = useProductStore();
-
       const user = userStore.currentUser;
+
       if (!user) throw new Error("No logged in user");
+      if (!items.length) throw new Error("Cart is empty");
 
-      // Use product store getter:
-      const product = productStore.getProductById(productId);
-      if (!product) throw new Error("Product not found");
-      if (product.stocks < quantity) throw new Error("Insufficient stock");
-
-      productStore.reduceStock(productId, quantity);
-
-      const item: OrderItem = {
-        productId: product.productId,
-        quantity,
-        price: product.price,
-        seller: product.seller,
-      };
-
-      const totalPrice = product.price * quantity;
+      // Reduce stock for each item
+      for (const item of items) {
+        productStore.reduceStock(item.productId, item.quantity);
+      }
 
       const newOrder: Order = {
         id: uuidv4(),
         user,
-        items: [item],
+        items,
         totalPrice,
         status: "pending",
         createdAt: new Date().toISOString(),
@@ -63,6 +55,24 @@ export const useOrderStore = defineStore("order", {
       saveOrdersToLocalStorage(this.orders);
 
       return newOrder;
+    },
+
+    cancelOrder(orderId: string) {
+      const orderIndex = this.orders.findIndex((order) => order.id === orderId);
+      if (orderIndex === -1) throw new Error("Order not found");
+
+      const order = this.orders[orderIndex];
+      if (order.status !== "pending")
+        throw new Error("Only pending orders can be cancelled");
+
+      // Restore stock
+      const productStore = useProductStore();
+      for (const item of order.items) {
+        productStore.increaseStock(item.productId, item.quantity);
+      }
+
+      this.orders[orderIndex].status = "cancelled";
+      saveOrdersToLocalStorage(this.orders);
     },
   },
 });

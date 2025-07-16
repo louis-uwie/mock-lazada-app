@@ -1,59 +1,175 @@
 <template>
-  <el-table :data="userOrders" stripe border style="width: 100%">
-    <el-table-column prop="id" label="Order ID" width="220" />
+  <div class="cart-container">
+    <template v-if="cartItems.length">
+      <el-table :data="cartItems" stripe border style="width: 100%">
+        <el-table-column label="Product" align="center">
+          <template #default="{ row }">
+            <strong>{{ row.name }}</strong>
+          </template>
+        </el-table-column>
 
-    <el-table-column label="Items">
-      <template #default="{ row }">
-        <li v-for="item in row.items" :key="item.productId" style="margin: 4px">
-          {{ item.quantity }} × {{ getProductName(item.productId) }}
-          <strong>( ₱{{ item.price.toFixed(2) }} )</strong>
-        </li>
-      </template>
-    </el-table-column>
+        <el-table-column label="Price" align="center" width="120">
+          <template #default="{ row }"> ₱{{ row.price.toFixed(2) }} </template>
+        </el-table-column>
 
-    <el-table-column prop="totalPrice" label="Total" width="140">
-      <template #default="{ row }"> ₱{{ row.totalPrice.toFixed(2) }} </template>
-    </el-table-column>
+        <el-table-column label="Quantity" align="center" width="160">
+          <template #default="{ row }">
+            <el-input-number
+              v-model="row.quantity"
+              :min="1"
+              @change="updateQuantity(row.productId, row.quantity)"
+            />
+          </template>
+        </el-table-column>
 
-    <el-table-column prop="status" label="Status" width="120" />
-  </el-table>
+        <el-table-column label="Subtotal" align="center" width="140">
+          <template #default="{ row }">
+            ₱{{ (row.price * row.quantity).toFixed(2) }}
+          </template>
+        </el-table-column>
+
+        <el-table-column label="Actions" align="center" width="140">
+          <template #default="{ row }">
+            <el-button
+              size="small"
+              type="danger"
+              @click="removeItem(row.productId)"
+            >
+              Remove
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <div class="cart-footer">
+        <div class="total">Total: ₱{{ totalPrice.toFixed(2) }}</div>
+        <el-button type="primary" @click="checkout">Checkout</el-button>
+      </div>
+    </template>
+
+    <template v-else>
+      <div class="empty-cart">Your cart is empty.</div>
+    </template>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useUserStore } from "../../stores/user";
+import { ElMessage, ElMessageBox } from "element-plus";
+
+import { useCartStore } from "../../stores/carts";
 import { useOrderStore } from "../../stores/orders";
 import { useProductStore } from "../../stores/product";
+import { useUserStore } from "../../stores/user";
 
-const userStore = useUserStore();
+const cartStore = useCartStore();
 const orderStore = useOrderStore();
 const productStore = useProductStore();
+const userStore = useUserStore();
 
-const user = computed(() => userStore.currentUser);
+// Enrich cart items with product info (price, name)
+const cartItems = computed(() =>
+  cartStore.getItems.map((item) => {
+    const product = productStore.getProductById(item.productId);
+    return {
+      ...item,
+      price: product?.price ?? 0,
+      name: product?.name ?? "Unknown Product",
+    };
+  })
+);
 
-const userOrders = computed(() => {
-  if (!user.value) return [];
-  return orderStore.getOrdersByUser(user.value.userId);
-});
+// Calculate total price from enriched items
+const totalPrice = computed(() =>
+  cartItems.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
+);
 
-function getProductName(productId: string): string {
-  const product = productStore.getProductById(productId);
-  return product?.name ?? "Unknown Product";
+function updateQuantity(productId: string, newQty: number) {
+  try {
+    cartStore.updateQuantity(productId, newQty);
+  } catch (err) {
+    ElMessage.error((err as Error).message);
+  }
+}
+
+function removeItem(productId: string) {
+  ElMessageBox.confirm("Remove this item from your cart?", "Confirm Removal", {
+    confirmButtonText: "Remove",
+    cancelButtonText: "Cancel",
+    type: "warning",
+  })
+    .then(() => {
+      cartStore.removeItem(productId);
+      ElMessage.success("Item removed from cart.");
+    })
+    .catch(() => {});
+}
+
+function checkout() {
+  const user = userStore.currentUser;
+  if (!user) {
+    ElMessage.error("You must be logged in to checkout.");
+    return;
+  }
+
+  try {
+    const itemsForOrder = cartItems.value.map(
+      ({ productId, quantity, price }) => {
+        const product = productStore.getProductById(productId);
+        if (!product) throw new Error(`Product not found: ${productId}`);
+
+        return {
+          productId,
+          quantity,
+          price,
+          seller: product.seller, // add seller here
+        };
+      }
+    );
+
+    const total = totalPrice.value;
+
+    if (!itemsForOrder.length) {
+      ElMessage.warning("Cart is empty.");
+      return;
+    }
+
+    orderStore.checkoutCart(itemsForOrder, total);
+    cartStore.clearCart();
+
+    ElMessage.success("Checkout complete!");
+  } catch (err) {
+    ElMessage.error((err as Error).message);
+  }
 }
 </script>
 
 <style scoped>
-.orders-container {
-  max-width: 900px;
+.cart-container {
+  min-width: 1080px;
   margin: 2rem auto;
   padding: 1.5rem;
   background: #fdfdfd;
-  border: 1px solid #ccc;
   border-radius: 8px;
 }
-.empty-orders {
+
+.cart-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.total {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.empty-cart {
   text-align: center;
   margin-top: 5rem;
   font-size: 1.2rem;
+  color: #777;
+  font-style: italic;
 }
 </style>

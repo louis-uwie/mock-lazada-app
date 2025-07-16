@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import "./style.css";
-import QuickCheckOut from "./components/QuickCheckOut.vue";
+import QuickCart from "./components/QuickCart.vue";
 import Header from "./components/Header.vue";
+import { useUserStore } from "./stores/user";
+
+const userStore = useUserStore();
 </script>
 
 <template>
   <div class="fixed-header">
     <Header />
-    <QuickCheckOut />
   </div>
+
+  <!-- Only show QuickCart if user is logged in -->
+  <QuickCart v-if="userStore.currentUser" />
 
   <div class="main-content">
     <router-view />
@@ -22,6 +27,7 @@ import Header from "./components/Header.vue";
   left: 0;
   width: 100%;
   z-index: 1000;
+  min-width: 570px;
 }
 
 .main-content {
