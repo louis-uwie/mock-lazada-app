@@ -1,5 +1,11 @@
 import { defineStore } from "pinia";
 import type { Product } from "../types/product";
+import {
+  initDB,
+  insertProduct,
+  getAllProducts,
+  updateProductStock,
+} from "../utils/db";
 
 export const useProductStore = defineStore("product", {
   state: () => ({
@@ -10,21 +16,39 @@ export const useProductStore = defineStore("product", {
       state.products.find((p) => p.productId === id),
   },
   actions: {
-    setProducts(products: Product[]) {
-      this.products = products;
+    async loadProducts() {
+      await initDB();
+      this.products = getAllProducts();
     },
 
-    reduceStock(productId: string, quantity: number = 1) {
-      const product = this.products.find((p) => p.productId === productId);
-      if (product && product.stocks >= quantity) {
-        product.stocks -= quantity;
+    async addOrUpdateProduct(product: Product) {
+      await initDB();
+      insertProduct(product);
+      const index = this.products.findIndex(
+        (p) => p.productId === product.productId
+      );
+      if (index !== -1) {
+        this.products[index] = product;
+      } else {
+        this.products.push(product);
       }
     },
 
-    increaseStock(productId: string, quantity: number) {
+    async reduceStock(productId: string, quantity: number = 1) {
+      const product = this.products.find((p) => p.productId === productId);
+      if (product && product.stocks >= quantity) {
+        product.stocks -= quantity;
+        await initDB();
+        updateProductStock(productId, product.stocks);
+      }
+    },
+
+    async increaseStock(productId: string, quantity: number) {
       const product = this.products.find((p) => p.productId === productId);
       if (product) {
         product.stocks += quantity;
+        await initDB();
+        updateProductStock(productId, product.stocks);
       }
     },
   },

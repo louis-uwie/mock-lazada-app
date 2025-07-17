@@ -1,20 +1,26 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { login } from "../../modules/login"; // your login function
 import { ElMessage } from "element-plus";
-
-const username = ref("");
-const password = ref("");
+import { useUserStore } from "../../stores/user";
+import { useRouter } from "vue-router";
+import { login } from "../../modules/login";
 
 const emit = defineEmits(["login-success"]);
 
-const handleLogin = () => {
-  const user = login(username.value, password.value);
+const username = ref("");
+const password = ref("");
+const router = useRouter(); // Correct way to get router instance
+const userStore = useUserStore(); // Call the function to get the store instance
+
+const handleLogin = async () => {
+  const user = await login(username.value, password.value);
   if (user) {
-    ElMessage.success("Login successful");
-    emit("login-success", user);
+    await userStore.login(user); // store the user in Pinia
+    ElMessage.success("Login successful!");
+    router.push("/account");
+    emit("login-success");
   } else {
-    ElMessage.error("Invalid username or password");
+    ElMessage.error("Invalid username or password.");
   }
 };
 </script>

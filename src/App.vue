@@ -4,7 +4,14 @@ import QuickCart from "./components/QuickCart.vue";
 import Header from "./components/Header.vue";
 import { useUserStore } from "./stores/user";
 
+// import { initDB } from "./utils/db";
+import { onMounted } from "vue";
+
 const userStore = useUserStore();
+
+onMounted(async () => {
+  await userStore.loadUser();
+});
 </script>
 
 <template>
@@ -12,7 +19,6 @@ const userStore = useUserStore();
     <Header />
   </div>
 
-  <!-- Only show QuickCart if user is logged in -->
   <QuickCart v-if="userStore.currentUser" />
 
   <div class="main-content">

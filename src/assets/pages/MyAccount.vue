@@ -1,19 +1,26 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
+
 import { useUserStore } from "../../stores/user";
 import type { User } from "../../types/user";
 import { ElMessage } from "element-plus";
 import "../../style.css";
 
 const userStore = useUserStore();
-const editingUser = ref<User | null>(
-  userStore.currentUser ? { ...userStore.currentUser } : null
-);
+const editingUser = ref<User | null>(null);
 
-const handleUpdate = () => {
+watchEffect(() => {
+  if (userStore.currentUser) {
+    editingUser.value = { ...userStore.currentUser };
+  }
+});
+
+const handleUpdate = async () => {
   if (editingUser.value) {
-    userStore.login(editingUser.value); // reuse login to update user
+    await userStore.updateUser(editingUser.value);
+    await userStore.loadUser();
     ElMessage.success("Account updated successfully!");
+    console.log("Updated user:", userStore.currentUser);
   }
 };
 </script>
@@ -39,7 +46,7 @@ const handleUpdate = () => {
       </el-form-item>
 
       <el-form-item>
-        <el-button type="textarea" @click="handleUpdate">Update</el-button>
+        <el-button type="primary" @click="handleUpdate">Update</el-button>
       </el-form-item>
     </el-form>
   </div>

@@ -6,8 +6,8 @@ import "element-plus/dist/index.css";
 
 import { createPinia } from "pinia";
 
-import { useProductStore } from "./stores/product";
-import { products } from "./components/mock-products";
+// import { useProductStore } from "./stores/product";
+// import { products } from "./components/mock-products";
 
 const app = createApp(App);
 
@@ -16,8 +16,6 @@ app.use(pinia);
 app.use(router);
 app.use(ElementPlus);
 
-const productStore = useProductStore();
-
-productStore.setProducts(products);
+// const productStore = useProductStore();
 
 app.mount("#app");
