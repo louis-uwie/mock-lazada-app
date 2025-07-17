@@ -1,34 +1,31 @@
 <template>
   <div class="container">
-    <div class="top-banner"><UserInformation /></div>
+    <div class="top-banner fadeIn"><UserInformation /></div>
 
-    <div v-if="userStore.currentUser" class="inbetween"><QuickTabs /></div>
-
-    <div class="banner"><Store /></div>
-    <div class="banner"></div>
+    <Store />
   </div>
 </template>
 
 <style scoped>
 .container {
-  margin: 20px auto;
   display: flex;
   flex-direction: column;
-  max-width: 1620px;
+
+  justify-content: center;
+  align-items: center;
+
   min-width: 300px;
   gap: 20px;
   width: 80vw;
 }
 
 .top-banner {
-  /* display: none; */
   width: 100%;
   background-color: white;
   border-radius: 20px;
 }
 
 .banner {
-  /* background-color: rgb(229, 229, 229); */
   color: black;
   width: 100%;
 }

@@ -9,4 +9,5 @@ export interface User {
   accType: AccType;
   registerDate: Date;
   wallet: number;
+  homeAddress?: string;
 }

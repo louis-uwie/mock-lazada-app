@@ -1,3 +1,21 @@
+<script setup lang="ts">
+import { ref, computed } from "vue";
+import { products } from "../../components/mock-products";
+import Card from "../../components/Card.vue"; // Adjust path if different
+
+const pageSize = 8;
+const currentPage = ref(1);
+
+const handlePageChange = (page: number) => {
+  currentPage.value = page;
+};
+
+const paginatedProducts = computed(() => {
+  const start = (currentPage.value - 1) * pageSize;
+  return products.slice(start, start + pageSize);
+});
+</script>
+
 <template>
   <div class="pagination-wrapper">
     <el-pagination
@@ -14,84 +32,38 @@
       v-for="(product, index) in paginatedProducts"
       :key="index"
       :to="`/store/product_${product.productId}`"
-      class="product-link"
+      class="product-link fade-in"
     >
-      <el-card class="product-card" shadow="hover">
-        <!-- <img :src="product.img" alt="Product Image" class="product-image" /> -->
-        <img
-          src="../images/europeana-kWrE1KDiR48-unsplash.jpg"
-          class="product-image"
-        />
-        <template #footer>
-          <div class="product-info">
-            <strong>{{ product.name }}</strong
-            ><br />
-            Price: <b>₱{{ product.price.toFixed(2) }}</b
-            ><br />
-            Seller: {{ product.seller.username }}<br />
-            Category: {{ product.category }}
-          </div>
-        </template>
-      </el-card>
+      <Card :product="product" />
     </router-link>
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref, computed } from "vue";
-import { products } from "../../components/mock-products";
-
-const pageSize = 8;
-const currentPage = ref(1);
-
-const handlePageChange = (page: number) => {
-  currentPage.value = page;
-};
-
-const paginatedProducts = computed(() => {
-  const start = (currentPage.value - 1) * pageSize;
-  return products.slice(start, start + pageSize);
-});
-</script>
-
 <style scoped>
-.pagination-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
 .product-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  padding: 16px;
   justify-content: center;
+  gap: 20px;
+  padding: 0 20px 40px;
 }
 
 .product-link {
   text-decoration: none;
   color: inherit;
-  max-width: 320px;
-  width: 100%;
-}
-
-.product-card {
+  flex: 1 1 300px; /* Flexible with a minimum width */
+  max-width: 300px;
+  min-width: 260px;
+  box-sizing: border-box;
   transition: all 0.3s ease-in-out;
 }
-.product-card:hover {
+
+.product-link:hover {
   transform: translateY(-4px);
 }
 
-.product-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.product-info {
-  font-size: 16px;
-  line-height: 1.4;
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
 }
 
 ::v-deep .el-pager li {
@@ -145,5 +117,16 @@ const paginatedProducts = computed(() => {
   color: rgba(255, 255, 255, 0.4);
   background-color: transparent;
   cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

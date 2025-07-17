@@ -28,9 +28,7 @@ const handleOverlayClick = async () => {
       }
     );
     showLoginOverlay.value = false;
-  } catch {
-    // user cancelled
-  }
+  } catch {}
 };
 
 const handleLogout = () => {
@@ -41,15 +39,31 @@ const goToDashboard = () => {
   router.push("/");
 };
 
-const goToStore = () => {
-  router.push("/store");
+const goMerchantStore = () => {
+  const username = userStore.currentUser?.username;
+  if (username) {
+    router.push(`/merchant/${username}/myStore`);
+  } else {
+    console.warn("User not logged in or username is missing");
+  }
+};
+
+const goMyAccount = () => {
+  const username = userStore.currentUser?.username;
+  if (username) {
+    router.push(`/account/${username}/myAccount`);
+  } else {
+    console.warn("User not logged in or username is missing");
+  }
 };
 </script>
 
 <template>
   <div class="header-container">
     <div class="top-header">
-      <span class="logo" @click="goToDashboard">QuickSalesForFun</span>
+      <span class="logo" @click="goToDashboard"
+        >NotReallySureWhatOrHowToSell</span
+      >
 
       <div class="right">
         <template v-if="userStore.currentUser">
@@ -69,9 +83,7 @@ const goToStore = () => {
       </div>
     </div>
 
-    <el-divider class="tagline" content-position="left">
-      <em>Just because I like it</em>
-    </el-divider>
+    <el-divider class="tagline" content-position="left"> </el-divider>
 
     <div
       v-if="showLoginOverlay && !userStore.currentUser"
@@ -85,22 +97,38 @@ const goToStore = () => {
       <el-button class="button" round @click="goToDashboard"
         >Dashboard</el-button
       >
-      <el-button class="button" round @click="goToStore">Store</el-button>
+      <el-button class="button" round @click="goMyAccount"
+        >My Account</el-button
+      >
+      <el-button
+        v-if="userStore.currentUser?.accType === 'Merchant'"
+        class="button"
+        round
+        @click="goMerchantStore"
+        >My Shop</el-button
+      >
     </div>
   </div>
 </template>
 
 <style scoped>
 .button {
+  font-size: large;
+  font-family: "Century Gothic";
   background-color: #ffffff;
   color: black;
   border: none;
-  margin-left: 20px;
+  margin: 20px;
+
+  transition: all 0.3s ease-in-out;
+}
+
+.button:hover {
+  transform: scale(1.05);
 }
 
 .menu {
   display: flex;
-  justify-content: center;
   align-items: center;
   height: 50px;
   border: none;
@@ -120,8 +148,8 @@ const goToStore = () => {
 }
 
 .logo {
-  font-size: 30px;
-  font-weight: 600;
+  font-size: xx-large;
+  font-weight: 900;
   margin-top: 5px;
   color: #000000;
 
@@ -153,8 +181,8 @@ const goToStore = () => {
 }
 
 .tagline {
+  background-color: transparent !important;
   color: #000000;
-  background-color: white;
 }
 
 .login-overlay {
@@ -170,8 +198,7 @@ const goToStore = () => {
   align-items: center;
 }
 
-.header-container,
-.tagline {
+.header-container {
   background: linear-gradient(
     -45deg,
     #ff9a9e,
@@ -188,10 +215,6 @@ const goToStore = () => {
 
 ::v-deep(.el-divider) {
   border-top: 1px solid rgb(255, 255, 255);
-}
-
-::v-deep(.el-divider__text) {
-  color: black;
-  border-radius: 12px;
+  margin: 4px;
 }
 </style>
