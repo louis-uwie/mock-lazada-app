@@ -1,6 +1,6 @@
 <template>
   <div class="cart-container">
-    <template v-if="cartItems.length">
+    <div v-if="cartItems.length" class="cart-content">
       <el-table :data="cartItems" stripe border style="width: 100%">
         <el-table-column label="Product" align="center">
           <template #default="{ row }">
@@ -45,11 +45,9 @@
         <div class="total">Total: ₱{{ totalPrice.toFixed(2) }}</div>
         <el-button type="primary" @click="checkout">Checkout</el-button>
       </div>
-    </template>
+    </div>
 
-    <template v-else>
-      <div class="empty-cart">Your cart is empty.</div>
-    </template>
+    <div v-else class="empty-cart">Your cart is empty.</div>
   </div>
 </template>
 
@@ -67,7 +65,7 @@ const orderStore = useOrderStore();
 const productStore = useProductStore();
 const userStore = useUserStore();
 
-// Enrich cart items with product info (price, name)
+// Enrich cart items with product info
 const cartItems = computed(() =>
   cartStore.getItems.map((item) => {
     const product = productStore.getProductById(item.productId);
@@ -79,7 +77,6 @@ const cartItems = computed(() =>
   })
 );
 
-// Calculate total price from enriched items
 const totalPrice = computed(() =>
   cartItems.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
 );
@@ -122,7 +119,7 @@ function checkout() {
           productId,
           quantity,
           price,
-          seller: product.seller, // add seller here
+          seller: product.seller,
         };
       }
     );
@@ -166,10 +163,12 @@ function checkout() {
 }
 
 .empty-cart {
-  text-align: center;
-  margin-top: 5rem;
-  font-size: 1.2rem;
-  color: #777;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: srgb(0, 0, 0);
+  font-size: 1.5rem;
   font-style: italic;
+  background: transparent;
 }
 </style>

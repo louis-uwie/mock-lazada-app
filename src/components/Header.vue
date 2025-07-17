@@ -49,7 +49,7 @@ const goToStore = () => {
 <template>
   <div class="header-container">
     <div class="top-header">
-      <span class="logo">QuickSalesForFun</span>
+      <span class="logo" @click="goToDashboard">QuickSalesForFun</span>
 
       <div class="right">
         <template v-if="userStore.currentUser">
@@ -124,6 +124,8 @@ const goToStore = () => {
   font-weight: 600;
   margin-top: 5px;
   color: #000000;
+
+  cursor: pointer;
 }
 
 .right {
